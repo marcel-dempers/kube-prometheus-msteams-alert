@@ -1,0 +1,19 @@
+# Default values for alertmanager-msteams.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+alertmanager-msteams:
+  name: alertmanager-msteams
+  image: alertmanager-msteams:latest
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alertmanager-msteams
+  
+  
+  configmap: >-
+    {
+      "MicrosoftTeamsURL" : "https://outlook.office.com/webhook/XXXXXXXXXXX"
+    }
+     

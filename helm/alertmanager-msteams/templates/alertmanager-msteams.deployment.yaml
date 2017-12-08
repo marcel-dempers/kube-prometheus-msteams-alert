@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ index .Values "alertmanager-msteams" "name" }}
+spec:
+  replicas: {{ index .Values "alertmanager-msteams" "replicas" }}
+  revisionHistoryLimit: 2 
+  template:
+    metadata:
+      labels:
+        app: {{ index .Values "alertmanager-msteams" "template" "metadata" "labels" "app" }}
+    spec:
+      restartPolicy: Always
+      dnsPolicy: ClusterFirst
+      containers:
+      - name: {{ index .Values "alertmanager-msteams" "name" }}
+        image: {{ index .Values "alertmanager-msteams" "image" }}
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 10010
+        volumeMounts:
+        - name: {{ index .Values "alertmanager-msteams" "name" }}-config
+          mountPath: /app/Configs
+          readOnly: true
+      volumes:
+      - name: {{ index .Values "alertmanager-msteams" "name" }}-config
+        configMap:
+          name: {{ index .Values "alertmanager-msteams" "name" }}-config
